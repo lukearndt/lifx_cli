@@ -1,8 +1,8 @@
 # Light Sleeper
 
-Waking up to a blaring alarm isn't very good.
+Let's be honest.
 
-Being able to disable or snooze that alarm from the side of your bed also isn't great.
+Waking up to a blaring alarm isn't much fun. It's annoying. It's unpleasant. Who wants their first thought every day to be "Argh, turn off that noise!"?
 
 Wouldn't it be better to train and use your body's in-built Circadian Rhythm?
 
