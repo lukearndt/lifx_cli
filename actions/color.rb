@@ -1,5 +1,5 @@
 require 'lifx'
-require_relative '../lib/lights'
+require_relative '../lifx/lights'
 
 light      = ARGV[0] || 'luke'
 color      = ARGV[1] || 'white'

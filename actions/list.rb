@@ -1,4 +1,4 @@
-require_relative '../lib/lights'
+require_relative '../lifx/lights'
 
 if ARGV.empty?
   puts Lights.all

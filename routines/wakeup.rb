@@ -1,4 +1,4 @@
-require_relative '../lights'
+require_relative '../lifx/lights'
 
 module Routines
   class Wakeup
