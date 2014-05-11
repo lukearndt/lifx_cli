@@ -2,7 +2,7 @@ require_relative '../routines/wakeup'
 
 DEFAULTS =
 {
-  :tag                  => 'luke',
+  :tag                  => 'alarm',
   :sunrise_duration     => 30,
   :grace_period         => 30,
   :raves                => 1,
@@ -18,7 +18,7 @@ if ARGV.include? "--help"
   exit
 end
 
-tag                  =  ARGV[0] || 'luke'
+tag                  =  ARGV[0] || DEFAULTS[:tag]
 sunrise_duration     = (ARGV[1] || DEFAULTS[:sunrise_duration]).to_f
 grace_period         = (ARGV[2] || DEFAULTS[:grace_period]).to_f
 raves                = (ARGV[3] || DEFAULTS[:raves]).to_i
