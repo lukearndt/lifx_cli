@@ -39,10 +39,14 @@ module Routines
 
     NINTH_MINUTE_ALT_COLOR = LIFX::Color.hsbk(0, 0, 0, 0)
 
-    def initialize(hours_tag, minutes_tag, tens_of_minutes_tag)
+    DARKNESS = LIFX::Color.hsbk(0,0,0,0)
+
+    def initialize(brightness, hours_tag, minutes_tag, tens_of_minutes_tag, all_lights_tag)
+      @brightness             = brightness
       @hour_lights            = Lights[hours_tag]
       @tens_of_minutes_lights = Lights[tens_of_minutes_tag]
       @minute_lights          = Lights[minutes_tag]
+      @all_lights_tag         = Lights[all_lights_tag] if @all_lights_tag
     rescue Lights::TagNotFound
       puts "You specified a tag that was not found on the network."
       exit(1)
@@ -88,22 +92,45 @@ module Routines
       Time.now.hour % 12 == 4 && Time.now.min == 4
     end
 
+    def internal_time_error?
+      Time.now.hour % 12 == 5 && Time.now.min == 0
+    end
+
     def display_time
       display_unavailability_warnings unless all_lights_available?
 
       display_hours
       display_tens_of_minutes
       display_minutes
+
+      display_broken_time if internal_time_error?
     end
 
     def display_nothing
-      darkness = LIFX::Color.hsbk(0,0,0,0)
-      all_lights.each do |lights|
-        lights.set_color darkness
+      if @all_lights
+        @all_lights.set_color DARKNESS
+      else
+        all_light_groups.each do |lights|
+          lights.set_color DARKNESS
+        end
       end
     end
 
-    def all_lights
+    def display_broken_time
+      if @all_lights
+        @all_lights.sine(DARKNESS,
+                         :cycles => 120,
+                         :period => 0.5)
+      else
+        all_light_groups.each do |lights|
+          lights.sine(DARKNESS,
+                      :cycles => 120,
+                      :period => 0.5)
+        end
+      end
+    end
+
+    def all_light_groups
       [@hour_lights, @tens_of_minutes_lights, @minute_lights]
     end
 
@@ -115,7 +142,7 @@ module Routines
     end
 
     def hour_color
-      LIFX::Color.send(hour_color_name)
+      LIFX::Color.send(hour_color_name, :brightness => @brightness)
     end
 
     def hour_color_name
@@ -130,7 +157,7 @@ module Routines
     end
 
     def tens_of_minutes_color
-      LIFX::Color.send(tens_of_minutes_color_name)
+      LIFX::Color.send(tens_of_minutes_color_name, :brightness => @brightness)
     end
 
     def tens_of_minutes_color_name
@@ -149,7 +176,7 @@ module Routines
     end
 
     def minute_color
-      LIFX::Color.send(minute_color_name)
+      LIFX::Color.send(minute_color_name, :brightness => @brightness)
     end
 
     def minute_color_name
