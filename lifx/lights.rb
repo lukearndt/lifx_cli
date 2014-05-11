@@ -22,6 +22,12 @@ module Lights
     end.lights.with_label(label)
   end
 
+  def with_id(id)
+    LIFX::Client.lan.discover! do |c|
+      c.lights.with_id(id)
+    end.lights.with_id(id)
+  end
+
   private
 
   def discover
