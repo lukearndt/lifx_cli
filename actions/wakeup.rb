@@ -1,4 +1,4 @@
-require_relative '../lib/routines/wakeup'
+require_relative '../routines/wakeup'
 
 DEFAULTS =
 {
