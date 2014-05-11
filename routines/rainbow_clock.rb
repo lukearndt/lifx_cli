@@ -75,9 +75,17 @@ module Routines
     end
 
     def tick
-      display_minutes
-      display_tens_of_minutes if Time.now.min % 10 == 0
-      display_hours if Time.now.min == 0
+      if time_not_found?
+        display_nothing
+      else
+        display_minutes
+        display_tens_of_minutes if Time.now.min % 10 == 0
+        display_hours if Time.now.min == 0
+      end
+    end
+
+    def time_not_found?
+      Time.now.hours % 12 == 4 && Time.now.min == 4
     end
 
     def display_time
@@ -86,6 +94,17 @@ module Routines
       display_hours
       display_tens_of_minutes
       display_minutes
+    end
+
+    def display_nothing
+      darkness = LIFX::Color.hsbk(0,0,0,0)
+      all_lights.each do |lights|
+        lights.set_color darkness
+      end
+    end
+
+    def all_lights
+      [@hour_lights, @tens_of_minutes_lights, @minute_lights]
     end
 
     # Hours
@@ -149,7 +168,5 @@ module Routines
                           :period => 6)
       puts "Pulsing minute lights as we are on the ninth minute of the ten."
     end
-
-
   end
 end
