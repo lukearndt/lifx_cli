@@ -5,7 +5,7 @@ module Lights
   extend self
 
   def [](tag)
-    discover(3)
+    discover(5)
     LIFX::Client.lan.lights.with_tag(tag)
   rescue LIFX::LightCollection::TagNotFound
     raise TagNotFound
