@@ -5,14 +5,14 @@ module Lights
   extend self
 
   def [](tag)
-    discover
+    discover(3)
     LIFX::Client.lan.lights.with_tag(tag)
   rescue LIFX::LightCollection::TagNotFound
     raise TagNotFound
   end
 
   def all
-    discover
+    discover(5)
     LIFX::Client.lan.lights
   end
 
@@ -28,11 +28,16 @@ module Lights
     end.lights.with_id(id)
   end
 
+  def try_again
+    @discovered_already = false
+    discover(5)
+  end
+
   private
 
-  def discover
+  def discover(time)
     LIFX::Client.lan.discover unless @discovered_already
-    sleep(3)
+    sleep(time)
     @discovered_already = true
   end
 end
