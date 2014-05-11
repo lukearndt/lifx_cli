@@ -85,7 +85,7 @@ module Routines
     end
 
     def time_not_found?
-      Time.now.hours % 12 == 4 && Time.now.min == 4
+      Time.now.hour % 12 == 4 && Time.now.min == 4
     end
 
     def display_time
