@@ -23,7 +23,7 @@ module Routines
       5 => 'purple',
     }
 
-    MINUTES_COLORS =
+    MINUTE_COLORS =
     {
       0 => 'red',
       1 => 'orange',
@@ -34,8 +34,10 @@ module Routines
       6 => 'pink',
       7 => 'cyan',
       8 => 'white',
-      9 => '',
+      9 => 'white',
     }
+
+    NINTH_MINUTE_ALT_COLOR = LIFX::Color.hsbk(0, 0, 0, 0)
 
     def initialize(hours_tag, minutes_tag, tens_of_minutes_tag)
       @hour_lights            = Lights[hours_tag]
@@ -68,6 +70,16 @@ module Routines
       puts "Minutes lights: #{@minute_lights}"
     end
 
+    def get_on_a_minute
+      sleep(60 - Time.now.sec)
+    end
+
+    def tick
+      display_minutes
+      display_tens_of_minutes if Time.now.min % 10 == 0
+      display_hours if Time.now.min == 0
+    end
+
     def display_time
       display_unavailability_warnings unless all_lights_available?
 
@@ -76,36 +88,68 @@ module Routines
       display_minutes
     end
 
+    # Hours
+
     def display_hours
       @hour_lights.set_color hour_color
-      puts "Hour lights set #{hour_color} as we are in hour #{Time.now.hour}."
+      puts "Hour lights set #{hour_color_name} as we are in hour #{Time.now.hour} (15 % 6 = #{15 % 6})."
     end
 
     def hour_color
-      LIFX::Color.send(HOUR_COLORS[(Time.now.hour / 6).to_i])
+      LIFX::Color.send(hour_color_name)
     end
+
+    def hour_color_name
+      HOUR_COLORS[Time.now.hour % 6]
+    end
+
+    # Tens of minutes
 
     def display_tens_of_minutes
-
+      @tens_of_minutes_lights.set_color tens_of_minutes_color
+      puts "Tens of minutes lights set #{tens_of_minutes_color_name} as we are in minute #{Time.now.min}."
     end
+
+    def tens_of_minutes_color
+      LIFX::Color.send(tens_of_minutes_color_name)
+    end
+
+    def tens_of_minutes_color_name
+      TENS_OF_MINUTES_COLORS[Time.now.min / 10]
+    end
+
+    # Minutes
 
     def display_minutes
       @minute_lights.set_color minute_color
-      puts "Minute lights set #{minute_color} as we are in minute #{Time.now.min}."
+      if ninth_minute?
+        display_ninth_minute
+      else
+        puts "Minute lights set #{minute_color_name} as we are in minute #{Time.now.min}."
+      end
     end
 
     def minute_color
-      LIFX::Color.send(MINUTE_COLORS[(Time.now.min / 10).to_i])
+      LIFX::Color.send(minute_color_name)
     end
 
-    def get_on_a_minute
-      sleep(60 - Time.now.sec)
+    def minute_color_name
+      MINUTE_COLORS[Time.now.min % 10]
     end
 
-    def tick
-      display_minutes
-      display_hours if Time.now.min == 0
+    # Ninth minute
+
+    def ninth_minute?
+      Time.now.min % 10 == 9
     end
+
+    def display_ninth_minute
+      @minute_lights.sine(NINTH_MINUTE_ALT_COLOR,
+                          :cycles => 10,
+                          :period => 6)
+      puts "Pulsing minute lights as we are on the ninth minute of the ten."
+    end
+
 
   end
 end
