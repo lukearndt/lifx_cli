@@ -1,4 +1,10 @@
-# Light Sleeper
+# LIFX CLI
+
+This repository contains a few command line tools for controlling LIFX bulbs. I hacked it together at Railscamp 15 in Brisbane.
+
+I wasn't focused toward making a polished product at the time, so don't expect gorgeous code. It's pretty procedural, but seems to do the job.
+
+## Wakeup script
 
 Let's be honest.
 
@@ -6,24 +12,21 @@ Waking up to a blaring alarm isn't much fun. It's annoying. It's unpleasant. Who
 
 Wouldn't it be better to train and use your body's in-built Circadian Rhythm?
 
-Light Sleeper is all about waking up to light.
+### How it works
 
-## How it works
+By replacing the bedroom light with a LIFX bulb and using this system to control it, I hope to replace my conventional alarm clock. The LIFX bulb is controlled on a schedule using a combination of crontab and ruby scripts.
 
-By replacing the bedroom light with a LIFX bulb and using this system to control it, I hope to replace my conventional alarm clock. The LIFX bulb is controlled on a schedule using a combination of Crontab and Ruby scripts.
-
-## How to set it up
+### How to set it up
 
 Step 1: Obtain a device that you can use to host this on in your house that you don't mind leaving on all the time (eg: Rasberry Pie)
-Step 2: Run some form of linux or unix on the device
-Step 3: Clone this repo onto it
-Step 4: Use crontab to schedule wakeup alarms by calling bin/wakeup.rb with whatever options you'd prefer in the following format:
+Step 2: Clone this repo onto it
+Step 3: Use crontab to schedule wakeup alarms by calling `ruby actions/wakeup.rb` with whatever options you'd prefer in the following format:
 
 ```shell
 bin/wakeup.rb tag [sunrise_duration grace_period raves party_length encore_delay aftermath_brightness]
 ```
 
-Example crontab entry:
+#### Example crontab entry:
 
 ```bash
 # To wake me up at 8:05am every day:
@@ -34,4 +37,33 @@ Example crontab entry:
 
 ```
 
-Happy napping!
+#### What's crontab?
+
+It's a task scheduling feature of linux and unix based operating systems. If you're running windows, you can probably use the Task Scheduler to similar effect.
+
+## Rainbow clock
+
+The rainbow clock requires 3 LIFX bulbs, so it's not the cheapest clock in the world. If you're up for that level of investment, though, it's quite pretty.
+
+### How it works
+
+Each of the three bulbs is used to represent a different measure of time:
+
+- Hours
+- Tens of minutes
+- Minutes
+
+Think of it like a digital clock, except that it uses colours instead of numberic digits. You can find the codefigured colour mappings at the top of this file:
+
+https://github.com/lukearndt/lifx_cli/blob/master/routines/rainbow_clock.rb
+
+### How to set it up
+
+Step 1: Obtain a device that you can use to host the repository and control the lights
+Step 2: Clone this repo onto it
+Step 3: Add different tags to the LIFX bulbs so that you can distinguish between them (default tags: 'hours', 'tens_of_minutes', 'minutes')
+Step 4: Start the clock using `ruby actions/display_clock.rb` and pass in any non-default tags (or just set different defaults if you really want)
+
+### Anything else of note?
+
+Yeah, at 4:04 the lights seem to go dark. Something about a 'time not found' error. Plus, at 5:00 they seem to go haywire for a minute; some kind of 'internal time error'?
