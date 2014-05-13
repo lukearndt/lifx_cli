@@ -64,4 +64,7 @@ https://github.com/lukearndt/lifx_cli/blob/master/routines/rainbow_clock.rb
 
 ### Anything else of note?
 
-Yeah, at 4:04 the lights seem to go dark. Something about a 'time not found' error. Plus, at 5:00 they seem to go haywire for a minute; some kind of 'internal time error'?
+Yeah, the lights go dark at 4:04 for some reason. Something about a 'time not found' error. Plus, they go haywire at 5:00; some kind of 'internal time error'?
+
+Waiting until 4:05 or 5:01 seems to resolve each respective issue.
+
