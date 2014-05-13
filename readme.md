@@ -1,8 +1,6 @@
 # LIFX CLI
 
-This repository contains a few command line tools for controlling LIFX bulbs. I hacked it together at Railscamp 15 in Brisbane.
-
-I wasn't focused toward making a polished product at the time, so don't expect gorgeous code. It's pretty procedural, but seems to do the job.
+This repository contains a few command line tools for controlling LIFX bulbs. I hacked them together at Railscamp 15 in Brisbane and wasn't focused toward making a polished product at the time, so don't expect gorgeous code. It's pretty procedural, but it seems to do the job.
 
 ## Wakeup script
 
@@ -18,9 +16,9 @@ By replacing the bedroom light with a LIFX bulb and using this system to control
 
 ### How to set it up
 
-Step 1: Obtain a device that you can use to host this on in your house that you don't mind leaving on all the time (eg: Rasberry Pie)
-Step 2: Clone this repo onto it
-Step 3: Use crontab to schedule wakeup alarms by calling `ruby actions/wakeup.rb` with whatever options you'd prefer in the following format:
+- Step 1: Obtain a device that you can use to host this on in your house that you don't mind leaving on all the time (eg: Rasberry Pie)
+- Step 2: Clone this repo onto it
+- Step 3: Use crontab to schedule wakeup alarms by calling `ruby actions/wakeup.rb` with whatever options you'd prefer in the following format:
 
 ```shell
 bin/wakeup.rb tag [sunrise_duration grace_period raves party_length encore_delay aftermath_brightness]
@@ -59,10 +57,10 @@ https://github.com/lukearndt/lifx_cli/blob/master/routines/rainbow_clock.rb
 
 ### How to set it up
 
-Step 1: Obtain a device that you can use to host the repository and control the lights
-Step 2: Clone this repo onto it
-Step 3: Add different tags to the LIFX bulbs so that you can distinguish between them (default tags: 'hours', 'tens_of_minutes', 'minutes')
-Step 4: Start the clock using `ruby actions/display_clock.rb` and pass in any non-default tags (or just set different defaults if you really want)
+- Step 1: Obtain a device that you can use to host the repository and control the lights
+- Step 2: Clone this repo onto it
+- Step 3: Add different tags to the LIFX bulbs so that you can distinguish between them (default tags: 'hours', 'tens_of_minutes', 'minutes')
+- Step 4: Start the clock using `ruby actions/display_clock.rb` and pass in any non-default tags (or just set different defaults if you really want)
 
 ### Anything else of note?
 
